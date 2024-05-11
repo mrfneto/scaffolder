@@ -64,13 +64,19 @@ const close = () => {
 <template>
   <AppSection>
     <template #header>
-      <h2>Minhas Tarefas</h2>
+      <h2 class="mb-0">Minhas Tarefas</h2>
       <button class="btn btn-primary btn-icon" @click="add">
         <BaseIcon name="CirclePlus" class="w-5" />
       </button>
     </template>
     <template #content>
-      <List :items="items" @edit="edit" @add="add" @remove="remove" />
+      <List
+        :items="items"
+        @edit="edit"
+        @add="add"
+        @remove="remove"
+        :loading="loading"
+      />
 
       <Form
         :item="currentItem"

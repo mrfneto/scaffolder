@@ -7,7 +7,7 @@ const name = ref('')
 <template>
   <AppSection>
     <template #header>
-      <h2>Home</h2>
+      <h2 class="mb-0">Home</h2>
     </template>
     <template #content>
       <p>
