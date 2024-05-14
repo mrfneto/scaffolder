@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 
 import BaseIcon from '@/components/shareds/BaseIcon.vue'
-import useCrud from '../useCrud'
 
 const props = defineProps({
   items: {
@@ -15,21 +14,20 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['edit', 'remove', 'add'])
+const emit = defineEmits(['edit', 'remove'])
+
 const edit = item => {
   emit('edit', item)
 }
 const remove = itemId => {
   emit('remove', itemId)
 }
-const add = () => {
-  emit('add')
-}
 </script>
 
 <template>
   <div class="table-container">
     <table>
+      <!-- Altere aqui -->
       <thead>
         <th scope="col px-4">
           <span class="sr-only">checkbox</span>
@@ -40,12 +38,6 @@ const add = () => {
         </th>
       </thead>
       <tbody>
-        <tr v-if="loading">
-          <td class="text-center" colspan="3">
-            <p class="mb-0 muted">Carregando...</p>
-          </td>
-        </tr>
-
         <tr v-for="item in items" :key="item.id">
           <td class="w-4 pr-1">
             <input type="checkbox" v-model="item.completed" class="w-4" />
@@ -70,10 +62,16 @@ const add = () => {
             </button>
           </td>
         </tr>
+        <!-- Altere aqui -->
         <tr v-if="!items.length">
           <td class="text-center" colspan="3">
             <p class="mb-0 muted text-sm">Nenhuma tarefa encontrada.</p>
             <p class="mb-0 muted text-sm">Cadastre uma nova tarefa.</p>
+          </td>
+        </tr>
+        <tr v-if="loading">
+          <td class="text-center" colspan="3">
+            <p class="mb-0 muted">Carregando...</p>
           </td>
         </tr>
       </tbody>

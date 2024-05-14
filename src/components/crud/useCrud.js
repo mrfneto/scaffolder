@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { reactive, ref, toRefs } from 'vue'
 
 import { showModal } from '@/components/shareds/modal/useModal'
 import { createToast } from '@/components/shareds/notify/useToast'
@@ -6,60 +6,67 @@ import { createToast } from '@/components/shareds/notify/useToast'
 import tasks from './tasks'
 
 export default function useCrud() {
-  const isModalVisible = ref(false)
-  const currentItem = ref({})
-  const items = ref([...tasks])
-  const loading = ref(false)
+  // atribui os states
+  const states = reactive({
+    isVisible: false,
+    items: [...tasks],
+    currentItem: {},
+    loading: false
+  })
 
-  const edit = item => {
-    currentItem.value = { ...item }
-    isModalVisible.value = true
-  }
-
+  // abri a tela de cadastro de um novo registro
   const add = () => {
-    currentItem.value = { id: null, name: '' }
-    isModalVisible.value = true
+    console.log('add')
+    states.currentItem = { id: null, name: '' }
+    states.isVisible = true
   }
 
+  //Abre a tela de edição de um registro existente
+  const edit = item => {
+    console.log('edit')
+    states.currentItem = { ...item }
+    states.isVisible = true
+  }
+
+  // Cadastra ou edita um registro
   const save = item => {
-    loading.value = true
+    states.loading = true
     setTimeout(() => {
       if (item.id) {
-        const index = items.value.findIndex(i => i.id === item.id)
+        const index = states.items.findIndex(i => i.id === item.id)
         if (index !== -1) {
-          items.value[index] = { ...item }
+          states.items[index] = { ...item }
         }
       } else {
-        item.id = items.value.length + 1
-        items.value.push(item)
+        item.id = states.items.length + 1
+        states.items.push(item)
       }
-      loading.value = false
+      states.loading = false
       close()
       createToast('Tarefa salva com sucesso!.', true)
     }, 1000)
   }
 
+  // Excluir um registro
   const remove = async itemId => {
     const useConfirmed = await showModal(
       `Tem certeza que deseja excluir a tarefa: Selecionada?`
     )
 
     if (useConfirmed) {
-      items.value = items.value.filter(item => item.id !== itemId)
+      states.items = states.items.filter(item => item.id !== itemId)
       createToast('Tarefa excluída com sucesso!.', true)
     }
   }
 
+  // Fecha e limpa o formulário
   const close = () => {
-    currentItem.value = {}
-    isModalVisible.value = false
+    states.currentItem = {}
+    states.isVisible = false
   }
 
   return {
-    isModalVisible,
-    loading,
-    items,
-    currentItem,
+    ...toRefs(states),
     add,
     edit,
     save,

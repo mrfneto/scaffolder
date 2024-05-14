@@ -20,10 +20,13 @@ const props = defineProps({
   }
 })
 const emit = defineEmits(['save', 'close'])
+
 const item = ref({ ...props.item })
+
 const save = () => {
   emit('save', item.value)
 }
+
 const close = () => {
   emit('close')
 }
@@ -40,7 +43,12 @@ watch(
       <h3>{{ item.id ? 'Editar' : 'Cadastrar' }} Tarefas</h3>
     </template>
     <template #content>
-      <FormSection @submitted="save" title="Salvar" :loading="loading">
+      <FormSection
+        @submitted="save"
+        :title="item.id ? 'Editar' : 'Cadastrar'"
+        :loading="loading"
+      >
+        <!-- Altere aqui -->
         <div class="modal-content">
           <FormInputs
             type="text"
@@ -49,6 +57,7 @@ watch(
             label="Descrição"
             required
           />
+          <!-- Até aqui -->
         </div>
       </FormSection>
     </template>
