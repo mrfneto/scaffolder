@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 import BaseIcon from '@/components/shareds/BaseIcon.vue'
+import FormCheckbox from '@/components/shareds/FormCheckbox.vue'
 
 const props = defineProps({
   items: {
@@ -40,7 +41,8 @@ const remove = itemId => {
       <tbody>
         <tr v-for="item in items" :key="item.id">
           <td class="w-4 pr-1">
-            <input type="checkbox" v-model="item.completed" class="w-4" />
+            <!-- <input type="checkbox" v-model="item.completed" class="w-4" /> -->
+            <FormCheckbox id="completed" v-model="item.completed" />
           </td>
           <th scope="row">
             <span :class="item.completed && 'line-through opacity-75'">

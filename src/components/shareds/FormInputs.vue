@@ -5,7 +5,7 @@ const model = defineModel()
 const props = defineProps({
   id: {
     type: String,
-    requidanger: true
+    required: true
   },
   type: {
     type: String,
