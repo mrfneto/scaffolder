@@ -4,6 +4,7 @@ import { ref, watch } from 'vue'
 import BaseModal from '@/components/shareds/modal/BaseModal.vue'
 import FormSection from '@/components/shareds/FormSection.vue'
 import FormInputs from '@/components/shareds/FormInputs.vue'
+import FormUpload from '@/components/shareds/FormUpload.vue'
 
 const props = defineProps({
   item: {
@@ -49,13 +50,19 @@ watch(
         :loading="loading"
       >
         <!-- Altere aqui -->
-        <div class="modal-content">
+        <div class="modal-content space-y-4">
           <FormInputs
             type="text"
             id="description"
             v-model="item.description"
             label="Descrição"
             required
+          />
+          <FormUpload
+            id="upload-example"
+            label="Comprovante"
+            description="Por favor, selecione um arquivo para fazer o upload."
+            error="Erro ao carregar o arquivo."
           />
           <!-- Até aqui -->
         </div>
